@@ -15,8 +15,8 @@ async function init() {
   $("grid").innerHTML = list.map(s => `<figure class="reveal" data-s="${esc(s.name)}"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy" onerror="this.remove()"><figcaption>${esc(s.name)}<small>${s.price ? esc(s.price) : "Negotiable"}</small></figcaption></figure>`).join("") || `<p class="sub">Gallery coming soon 💜</p>`;
   $("style").innerHTML = list.map(s => `<option>${esc(s.name)}</option>`).join("");
   const ig = igUser();
-  if (ig) document.body.insertAdjacentHTML("beforeend", `<a class="btn wa ig" target="_blank" href="https://ig.me/m/${esc(ig)}">📸 Instagram DM</a>`);
-  document.body.insertAdjacentHTML("beforeend", `<a class="btn wa" target="_blank" href="${wa("Hi! I'd like to ask about a hairstyle and the price.")}">💬 Chat / negotiate</a>`);
+  if (ig) document.body.insertAdjacentHTML("beforeend", `<a class="btn wa ig" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(ig)}">📸 Instagram DM</a>`);
+  document.body.insertAdjacentHTML("beforeend", `<a class="btn wa" target="_blank" rel="noopener noreferrer" href="${wa("Hi! I'd like to ask about a hairstyle and the price.")}">💬 Chat / negotiate</a>`);
 }
 $("grid").onclick = e => { const f = e.target.closest("figure"); if (f) { $("style").value = f.dataset.s; $("book").scrollIntoView(); } };
 
@@ -40,11 +40,11 @@ $("form").onsubmit = async e => {
   if (!pick) return say("Pick a time first 💜");
   const s = slots.find(x => x.id === pick), style = $("style").value, name = who().name;
   const { data, error } = await db.rpc("book_slot", { p_slot: pick, p_name: name, p_phone: who().phone, p_style: style, p_notes: $("notes").value });
-  if (error) return say("Something went wrong, try again.");
+  if (error) return say(esc(error.message || "Something went wrong, try again."));
   if (!data) { say("Sorry, that slot was just taken. Pick another."); return load(); }
   const t = `Hi! I'm ${name}. I just booked ${style} on ${s.slot_date} at ${s.slot_time}. Can we confirm the price?`;
   e.target.reset();
-  say(`Booked! ✅ Tap below to confirm the price with her.<br>${cfg.pay_info ? `<br><b>Payment details:</b><br>${esc(cfg.pay_info).replace(/\n/g, "<br>")}<br><br>` : ""}<a class="btn" target="_blank" href="${wa(t)}">Confirm on WhatsApp 💬</a>${igUser() ? ` <a class="btn" target="_blank" href="https://ig.me/m/${esc(igUser())}">Message on Instagram 📸</a>` : ""}`);
+  say(`Booked! ✅ Tap below to confirm the price with her.<br>${cfg.pay_info ? `<br><b>Payment details:</b><br>${esc(cfg.pay_info).replace(/\n/g, "<br>")}<br><br>` : ""}<a class="btn" target="_blank" rel="noopener noreferrer" href="${wa(t)}">Confirm on WhatsApp 💬</a>${igUser() ? ` <a class="btn" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Message on Instagram 📸</a>` : ""}`);
   load(); hist();
 };
 

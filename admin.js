@@ -15,7 +15,7 @@ async function refresh() {
   const { data } = await db.from("slots").select("*, bookings(name,phone,style,notes,status)").gte("slot_date", today).order("slot_date").order("slot_time");
   $("list").innerHTML = (data || []).map(s => {
     const b = Array.isArray(s.bookings) ? s.bookings[0] : s.bookings;
-    return `<div class="row"><span><b>${s.slot_date} · ${s.slot_time}</b><br>${b ? `👑 ${esc(b.name)} · ${esc(b.phone)} · ${esc(b.style)}${b.notes ? " · " + esc(b.notes) : ""}` : "Open"}</span>
+    return `<div class="row"><span><b>${esc(s.slot_date)} · ${esc(s.slot_time)}</b><br>${b ? `👑 ${esc(b.name)} · ${esc(b.phone)} · ${esc(b.style)}${b.notes ? " · " + esc(b.notes) : ""}` : "Open"}</span>
     <span>${b ? (b.status === "done" ? "✅ Done" : `<button onclick="doneB('${s.id}')">Done ✓</button> <button onclick="cancelB('${s.id}')">Cancel</button>`) : `<button onclick="removeS('${s.id}')">Remove</button>`}</span></div>`;
   }).join("") || "Nothing yet.";
 }

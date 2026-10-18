@@ -41,7 +41,7 @@ body{min-height:100vh;overflow:hidden;display:grid;place-items:center}
 <main class="card-wrap" id="cw"><form class="glass" id="f">
 <div class="ring"><img src="img/logo.jpg" alt="logo"></div>
 <h1 id="ttl"></h1><p class="sub" style="margin:0">Sign in to manage your bookings 👑</p>
-<input id="name" placeholder="Full name" hidden><input id="phone" type="tel" placeholder="Phone / WhatsApp" hidden>
+<input id="name" placeholder="Full name" maxlength="60" hidden><input id="phone" type="tel" placeholder="Phone / WhatsApp" maxlength="20" pattern="[+0-9 ()\-]{7,20}" hidden>
 <input id="email" type="email" placeholder="Email" required autocomplete="username">
 <div class="pw"><input id="pw" type="password" placeholder="Password" required autocomplete="current-password"><button type="button" id="eye" aria-label="Show password">👁</button></div>
 <button class="btn" id="go">Enter the Gallery</button><p id="err"></p><a href="#" class="back" id="mode">New here? Create an account</a><a class="back" href="index.html">← Back to site</a>
@@ -55,7 +55,7 @@ $("ttl").innerHTML=[..."Welcome back, Queen"].map((c,i)=>`<span style="animation
 let busy=0;addEventListener("mousemove",e=>{if(busy)return;busy=1;requestAnimationFrame(()=>{busy=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$("f").style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`})});
 $("eye").onclick=()=>{$("pw").type=$("pw").type==="password"?"text":"password"};
 let signup=false;
-$("mode").onclick=e=>{e.preventDefault();signup=!signup;$("name").hidden=$("phone").hidden=!signup;$("name").required=$("phone").required=signup;$("go").textContent=signup?"Create my account":"Enter the Gallery";$("mode").textContent=signup?"Already have an account? Log in":"New here? Create an account";$("err").textContent=""};
+$("mode").onclick=e=>{e.preventDefault();signup=!signup;$("name").hidden=$("phone").hidden=!signup;$("name").required=$("phone").required=signup;$("go").textContent=signup?"Create my account":"Enter the Gallery";$("mode").textContent=signup?"Already have an account? Log in":"New here? Create an account";$("pw").minLength=signup?8:0;$("err").textContent=""};
 const fail=m=>{$("go").disabled=false;$("err").textContent=m;const w=$("cw");w.classList.remove("shake");void w.offsetWidth;w.classList.add("shake")};
 $("f").onsubmit=async e=>{e.preventDefault();$("go").disabled=true;$("err").textContent="";
  const em=$("email").value,pw=$("pw").value;let r;

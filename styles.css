@@ -33,3 +33,4 @@ figcaption small{color:var(--acc);font:500 .8rem Poppins}.brand{display:flex;ali
 [data-theme=dark] .hero::before{filter:invert(1);mix-blend-mode:screen;opacity:.1}
 .hero>div{position:relative;z-index:1}
 .wa.ig{bottom:72px}
+[hidden]{display:none!important}

@@ -1,9 +1,8 @@
 const db = supabase.createClient(CFG.url, CFG.key);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
 const $ = id => document.getElementById(id);
-const show = on => { $("login").hidden = on; $("panel").hidden = !on; if (on) { refresh(); loadStyles(); loadSet(); } };
+const show = on => { $("panel").hidden = !on; if (on) { refresh(); loadStyles(); loadSet(); } };
 db.auth.getSession().then(async ({ data }) => { if (!data.session) return location.replace("login.html"); const { data: a } = await db.rpc("is_admin"); a ? show(true) : location.replace("index.html"); });
-$("login").onsubmit = async e => { e.preventDefault(); const { error } = await db.auth.signInWithPassword({ email: $("email").value, password: $("pw").value }); error ? alert(error.message) : show(true); };
 $("out").onclick = async () => { await db.auth.signOut(); location.href = "login.html"; };
 $("add").onsubmit = async e => {
   e.preventDefault();

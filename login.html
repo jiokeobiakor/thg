@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THG · Login</title><link rel="icon" href="img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+<style>
+body{min-height:100vh;overflow:hidden;display:grid;place-items:center}
+.wall{position:fixed;inset:-25%;display:flex;gap:18px;justify-content:center;transform:rotate(-12deg) translate(var(--px,0),var(--py,0));z-index:0;will-change:transform}
+.col{flex:0 0 220px;will-change:transform;animation:up 40s linear infinite}
+.col:nth-child(even){animation-name:down;animation-duration:50s}.col:nth-child(3){animation-duration:32s}
+@keyframes up{to{transform:translateY(-50%)}}@keyframes down{from{transform:translateY(-50%)}to{transform:none}}
+.col img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;margin-bottom:18px;border-radius:18px;border:4px solid var(--card)}
+.veil{position:fixed;inset:0;z-index:1;background:radial-gradient(circle,color-mix(in srgb,var(--bg) 30%,transparent),color-mix(in srgb,var(--bg) 85%,transparent)),linear-gradient(135deg,#b79df055,#7c4dcc77)}
+.bub{position:fixed;bottom:-60px;z-index:2;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#b79df0aa);animation:bub linear infinite;opacity:0}
+@keyframes bub{15%{opacity:.8}to{transform:translateY(-115vh) translateX(40px) scale(1.3);opacity:0}}
+.tg{position:fixed;top:14px;right:14px;z-index:5;background:var(--card);border:0;border-radius:50%;width:42px;height:42px;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 14px #7c4dcc44}
+.card-wrap{position:relative;z-index:3;width:min(92vw,420px);margin-top:50px;animation:pop 1.2s cubic-bezier(.2,1.2,.3,1) backwards}
+@keyframes pop{from{opacity:0;transform:translateY(90px) scale(.6) rotateX(35deg);filter:blur(14px)}}
+.card-wrap.shake{animation:shake .5s}
+@keyframes shake{25%{transform:translateX(-14px)}50%{transform:translateX(14px)}75%{transform:translateX(-8px)}}
+.glass{position:relative;padding:0 28px 30px;border-radius:28px;background:color-mix(in srgb,var(--card) 90%,transparent);box-shadow:0 30px 80px #7c4dcc66;display:grid;gap:14px;text-align:center;transition:transform .15s}
+.glass::before{content:"";position:absolute;inset:-3px;border-radius:31px;z-index:-1;background:linear-gradient(120deg,#b79df0,#7c4dcc,#eadfff,#b79df0);background-size:300% 300%;animation:flow 5s ease infinite}
+@keyframes flow{50%{background-position:100% 50%}}
+.ring{width:96px;height:96px;margin:-48px auto 0;border-radius:50%;overflow:hidden;border:3px solid var(--pri);background:#fff;animation:pulse 2.4s ease-in-out infinite,pop 1s .3s backwards}
+.ring img{width:100%;height:100%;object-fit:cover}
+@keyframes pulse{50%{box-shadow:0 0 0 14px #b79df033,0 0 40px #b79df0aa}}
+#ttl{font-size:1.8rem;line-height:1.2}#ttl span{display:inline-block;animation:letter .7s backwards}
+@keyframes letter{from{opacity:0;transform:translateY(30px) rotate(14deg)}}
+.glass>*:not(.ring):not(#ttl){animation:rise .8s backwards}
+.glass>:nth-child(3){animation-delay:1.3s}.glass>:nth-child(4){animation-delay:1.45s}.glass>:nth-child(5){animation-delay:1.6s}.glass>:nth-child(6){animation-delay:1.75s}.glass>:nth-child(7),.glass>:nth-child(8){animation-delay:1.9s}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+.glass input{width:100%;transition:.25s}.glass input:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px #b79df055;transform:scale(1.02)}
+.pw{position:relative}.pw button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;cursor:pointer;font-size:1.1rem}
+.glass .btn{position:relative;overflow:hidden}.glass .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff8,transparent);transform:skewX(-20deg);animation:sweep 2.6s infinite}
+@keyframes sweep{to{left:130%}}
+#err{color:#d6336c;min-height:1.2em;font-size:.9rem}.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+.enter .card-wrap{transition:.9s;transform:scale(1.7);opacity:0;filter:blur(12px)}
+.enter .wall{filter:brightness(1.3)}.enter .col{animation-duration:5s!important}
+@media(max-width:700px){.bub{display:none}.col:nth-child(4){display:none}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+</style></head><body>
+<div class="wall" id="wall"></div><div class="veil"></div><div id="bubs"></div>
+<button id="theme" class="tg" aria-label="Toggle theme">🌙</button>
+<main class="card-wrap" id="cw"><form class="glass" id="f">
+<div class="ring"><img src="img/logo.jpg" alt="logo"></div>
+<h1 id="ttl"></h1><p class="sub" style="margin:0">Sign in to manage your bookings 👑</p>
+<input id="name" placeholder="Full name" hidden><input id="phone" type="tel" placeholder="Phone / WhatsApp" hidden>
+<input id="email" type="email" placeholder="Email" required autocomplete="username">
+<div class="pw"><input id="pw" type="password" placeholder="Password" required autocomplete="current-password"><button type="button" id="eye" aria-label="Show password">👁</button></div>
+<button class="btn" id="go">Enter the Gallery</button><p id="err"></p><a href="#" class="back" id="mode">New here? Create an account</a><a class="back" href="index.html">← Back to site</a>
+</form></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script>
+<script>
+const db=supabase.createClient(CFG.url,CFG.key),$=id=>document.getElementById(id);
+$("wall").innerHTML=[0,1,2,3].map(c=>{const s=[0,1,2].map(k=>`<img src="img/c${(c*3+k)%12+1}.jpg" alt="">`).join("");return`<div class="col">${s+s}</div>`}).join("");
+$("bubs").innerHTML=Array.from({length:8},()=>{const s=8+Math.random()*26;return`<span class="bub" style="width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*8}s"></span>`}).join("");
+$("ttl").innerHTML=[..."Welcome back, Queen"].map((c,i)=>`<span style="animation-delay:${.7+i*.04}s">${c===" "?"&nbsp;":c}</span>`).join("");
+let busy=0;addEventListener("mousemove",e=>{if(busy)return;busy=1;requestAnimationFrame(()=>{busy=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$("f").style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`})});
+$("eye").onclick=()=>{$("pw").type=$("pw").type==="password"?"text":"password"};
+let signup=false;
+$("mode").onclick=e=>{e.preventDefault();signup=!signup;$("name").hidden=$("phone").hidden=!signup;$("name").required=$("phone").required=signup;$("go").textContent=signup?"Create my account":"Enter the Gallery";$("mode").textContent=signup?"Already have an account? Log in":"New here? Create an account";$("err").textContent=""};
+const fail=m=>{$("go").disabled=false;$("err").textContent=m;const w=$("cw");w.classList.remove("shake");void w.offsetWidth;w.classList.add("shake")};
+$("f").onsubmit=async e=>{e.preventDefault();$("go").disabled=true;$("err").textContent="";
+ const em=$("email").value,pw=$("pw").value;let r;
+ r=signup?await db.auth.signUp({email:em,password:pw,options:{data:{full_name:$("name").value,phone:$("phone").value}}}):await db.auth.signInWithPassword({email:em,password:pw});
+ if(r.error)return fail(signup?r.error.message:"Wrong email or password 💜");
+ if(!r.data.session)return fail("Check your email to confirm, then log in 💜");
+ const{data:adm}=await db.rpc("is_admin");
+ document.body.classList.add("enter");setTimeout(()=>location.href=adm?"admin.html":"index.html",1100)};
+db.auth.getSession().then(async({data})=>{if(!data.session)return;const{data:a}=await db.rpc("is_admin");$("err").style.color="var(--tx)";$("err").innerHTML=`You are already signed in 👑<br><a href="${a?"admin.html":"index.html"}">Continue</a> · <a href="#" id="so">Sign out</a>`;$("so").onclick=async e=>{e.preventDefault();await db.auth.signOut();location.reload()}});
+</script></body></html>

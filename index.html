@@ -1,56 +1,15 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>The Hair Gallery</title>
-    <link rel="icon" href="img/logo.jpg" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <nav>
-      <a class="brand" href="#"
-        ><img src="img/logo.jpg" alt="logo" /><b class="logo">T.H.G</b></a
-      >
-      <div>
-        <a href="#gallery">Gallery</a><a href="#book">Book</a
-        ><button id="theme" aria-label="Toggle theme">🌙</button>
-      </div>
-    </nav>
-    <header class="hero">
-      <div class="reveal">
-        <h1>The Hair Gallery</h1>
-        <p>Braids, locs &amp; styles fit for royalty 👑</p>
-        <a class="btn" href="#book">Book your crown</a>
-      </div>
-    </header>
-    <section id="gallery">
-      <h2 class="reveal">The Gallery</h2>
-      <p class="sub reveal">
-        Tap a style to book it · prices are negotiable on WhatsApp
-      </p>
-      <div id="grid" class="grid"></div>
-    </section>
-    <section id="book">
-      <h2 class="reveal">Book an Appointment</h2>
-      <form id="form" class="card reveal">
-        <label>Hairstyle<select id="style" required></select></label>
-        <label>Date<select id="date" required></select></label>
-        <div id="times" class="times"></div>
-        <label>Your name<input id="name" required /></label>
-        <label>Phone / WhatsApp<input id="phone" type="tel" required /></label>
-        <label>Notes (optional)<textarea id="notes"></textarea></label>
-        <button class="btn">Confirm booking</button>
-        <p id="msg"></p>
-      </form>
-    </section>
-    <footer>© The Hair Gallery</footer>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-    <script src="config.js"></script>
-    <script src="app.js"></script>
-  </body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Hair Gallery</title><link rel="icon" href="img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head><body>
+<nav><a class="brand" href="#"><img src="img/logo.jpg" alt="logo"><b class="logo">T.H.G</b></a><div><a href="#gallery">Gallery</a><a href="#book">Book</a><a href="#mine" id="mylink" hidden>My bookings</a><a href="login.html" id="acct">Login</a><button id="theme" aria-label="Toggle theme">🌙</button></div></nav>
+<header class="hero"><div class="reveal"><h1>The Hair Gallery</h1><p>Braids, locs &amp; styles fit for royalty 👑</p><a class="btn" href="#book">Book your crown</a></div></header>
+<section id="gallery"><h2 class="reveal">The Gallery</h2><p class="sub reveal">Tap a style to book it · prices are negotiable on WhatsApp</p><div id="grid" class="grid"></div></section>
+<section id="book"><h2 class="reveal">Book an Appointment</h2>
+<form id="form" class="card reveal"><p id="as" class="sub" style="margin:0"></p>
+<label>Hairstyle<select id="style" required></select></label>
+<label>Date<select id="date" required></select></label>
+<div id="times" class="times"></div>
+<label>Notes (optional)<textarea id="notes"></textarea></label>
+<button class="btn" id="bk">Confirm booking</button><p id="msg"></p></form></section>
+<section id="mine" hidden><h2 class="reveal">My Bookings</h2><div id="hist" class="card"></div></section>
+<footer>© The Hair Gallery</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="app.js"></script></body></html>

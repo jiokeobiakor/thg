@@ -36,14 +36,32 @@ $("date").onchange = times;
 $("times").onclick = e => { const b = e.target.closest(".t"); if (!b) return; pick = b.dataset.id; document.querySelectorAll(".t").forEach(x => x.classList.toggle("on", x === b)); };
 $("form").onsubmit = async e => {
   e.preventDefault();
+  if (!me) return (location.href = "login.html");
   if (!pick) return say("Pick a time first 💜");
-  const s = slots.find(x => x.id === pick), style = $("style").value, name = $("name").value;
-  const { data, error } = await db.rpc("book_slot", { p_slot: pick, p_name: name, p_phone: $("phone").value, p_style: style, p_notes: $("notes").value });
+  const s = slots.find(x => x.id === pick), style = $("style").value, name = who().name;
+  const { data, error } = await db.rpc("book_slot", { p_slot: pick, p_name: name, p_phone: who().phone, p_style: style, p_notes: $("notes").value });
   if (error) return say("Something went wrong, try again.");
   if (!data) { say("Sorry, that slot was just taken. Pick another."); return load(); }
   const t = `Hi! I'm ${name}. I just booked ${style} on ${s.slot_date} at ${s.slot_time}. Can we confirm the price?`;
   e.target.reset();
   say(`Booked! ✅ Tap below to confirm the price with her.<br>${cfg.pay_info ? `<br><b>Payment details:</b><br>${esc(cfg.pay_info).replace(/\n/g, "<br>")}<br><br>` : ""}<a class="btn" target="_blank" href="${wa(t)}">Confirm on WhatsApp 💬</a>${igUser() ? ` <a class="btn" target="_blank" href="https://ig.me/m/${esc(igUser())}">Message on Instagram 📸</a>` : ""}`);
-  load();
+  load(); hist();
 };
-init(); load();
+
+let me = null;
+const who = () => ({ name: me.user_metadata?.full_name || me.email, phone: me.user_metadata?.phone || "" });
+async function account() {
+  const { data } = await db.auth.getSession(); me = data.session?.user || null;
+  if (!me) { $("bk").textContent = "Log in to book"; $("as").textContent = "Log in to book. It takes 10 seconds 💜"; return; }
+  $("as").textContent = "Booking as " + who().name + " 👑"; $("mylink").hidden = false; $("mine").hidden = false;
+  $("acct").textContent = "Logout"; $("acct").href = "#";
+  $("acct").onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.reload(); };
+  hist();
+}
+async function hist() {
+  if (!me) return;
+  const { data } = await db.from("bookings").select("*").eq("user_id", me.id).order("created_at", { ascending: false });
+  const tag = { upcoming: "⏳ Upcoming", done: "✅ Done", cancelled: "✖ Cancelled" };
+  $("hist").innerHTML = (data || []).map(b => `<div class="row"><span><b>${esc(b.style)}</b><br>${b.slot_date ? new Date(b.slot_date + "T00:00").toDateString() + " · " + esc(b.slot_time) : ""}</span><span>${tag[b.status] || ""}</span></div>`).join("") || "No bookings yet. Your history will appear here 👑";
+}
+init(); load(); account();

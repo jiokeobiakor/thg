@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THG Admin</title><link rel="icon" href="img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head><body>
+<nav><a class="brand" href="#"><img src="img/logo.jpg" alt="logo"><b class="logo">THG Admin</b></a><button id="theme">🌙</button></nav>
+<section>
+<form id="login" class="card"><h2>Login</h2><input id="email" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><button class="btn">Login</button></form>
+<div id="panel" hidden>
+<form id="add" class="card"><h2>Add availability</h2>
+<label>Date<input id="d" type="date" required></label>
+<label>Times (comma separated)<input id="t" placeholder="9:00 AM, 1:00 PM, 4:00 PM" required></label>
+<button class="btn">Add</button></form>
+<form id="sf" class="card"><h2>Add a hairstyle</h2><input id="sn" placeholder="Style name" required><input id="sp" placeholder="Price (optional, blank = negotiable)"><input id="si" type="file" accept="image/*" required><button class="btn">Upload</button></form>
+<div class="card"><h2>My styles</h2><div id="sl"></div></div>
+<form id="set" class="card"><h2>Settings</h2><label>WhatsApp (country code, no +)<input id="wa"></label><label>Instagram username (no @)<input id="ig"></label><label>Payment details shown after booking<textarea id="pi" placeholder="Bank / Revolut / Wise details"></textarea></label><button class="btn">Save</button></form>
+<div class="card"><h2>Upcoming</h2><div id="list"></div><button class="btn" id="out">Logout</button></div>
+</div></section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="admin.js"></script></body></html>

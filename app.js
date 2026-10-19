@@ -9,15 +9,16 @@ const wa = t => `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(t)}`;
 async function init() {
   const [{ data: st }, { data: se }] = await Promise.all([
     db.from("styles").select("*").order("created_at"),
-    db.from("settings").select("*").eq("id", 1).single()]);
+    db.from("settings").select("id,whatsapp,instagram").eq("id", 1).single()]);
   if (se) cfg = se;
   const list = st || [];
-  $("grid").innerHTML = list.map(s => `<figure class="reveal" data-s="${esc(s.name)}"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy" onerror="this.remove()"><figcaption>${esc(s.name)}<small>${s.price ? esc(s.price) : "Negotiable"}</small></figcaption></figure>`).join("") || `<p class="sub">Gallery coming soon 💜</p>`;
+  $("grid").innerHTML = list.map(s => `<figure class="reveal" data-s="${esc(s.name)}"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy"><figcaption>${esc(s.name)}<small>${s.price ? esc(s.price) : "Negotiable"}</small></figcaption></figure>`).join("") || `<p class="sub">Gallery coming soon 💜</p>`;
   $("style").innerHTML = list.map(s => `<option>${esc(s.name)}</option>`).join("");
   const ig = igUser();
   if (ig) document.body.insertAdjacentHTML("beforeend", `<a class="btn wa ig" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(ig)}">📸 Instagram DM</a>`);
   document.body.insertAdjacentHTML("beforeend", `<a class="btn wa" target="_blank" rel="noopener noreferrer" href="${wa("Hi! I'd like to ask about a hairstyle and the price.")}">💬 Chat / negotiate</a>`);
 }
+$("grid").addEventListener("error", e => { if (e.target.tagName === "IMG") e.target.remove(); }, true);
 $("grid").onclick = e => { const f = e.target.closest("figure"); if (f) { $("style").value = f.dataset.s; $("book").scrollIntoView(); } };
 
 async function load() {
@@ -44,15 +45,19 @@ $("form").onsubmit = async e => {
   if (!data) { say("Sorry, that slot was just taken. Pick another."); return load(); }
   const t = `Hi! I'm ${name}. I just booked ${style} on ${s.slot_date} at ${s.slot_time}. Can we confirm the price?`;
   e.target.reset();
-  say(`Booked! ✅ Tap below to confirm the price with her.<br>${cfg.pay_info ? `<br><b>Payment details:</b><br>${esc(cfg.pay_info).replace(/\n/g, "<br>")}<br><br>` : ""}<a class="btn" target="_blank" rel="noopener noreferrer" href="${wa(t)}">Confirm on WhatsApp 💬</a>${igUser() ? ` <a class="btn" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Message on Instagram 📸</a>` : ""}`);
+  const { data: pay } = await db.rpc("get_pay_info");
+  say(`Booked! ✅ Tap below to confirm the price with her.<br>${pay ? `<br><b>Payment details:</b><br>${esc(pay).replace(/\n/g, "<br>")}<br><br>` : ""}<a class="btn" target="_blank" rel="noopener noreferrer" href="${wa(t)}">Confirm on WhatsApp 💬</a>${igUser() ? ` <a class="btn" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Message on Instagram 📸</a>` : ""}`);
   load(); hist();
 };
 
 let me = null;
-const who = () => ({ name: me.user_metadata?.full_name || me.email, phone: me.user_metadata?.phone || "" });
+let prof = {};
+const who = () => ({ name: prof.full_name || me.email.split("@")[0], phone: prof.phone || "" });
 async function account() {
   const { data } = await db.auth.getSession(); me = data.session?.user || null;
   if (!me) { $("bk").textContent = "Log in to book"; $("as").textContent = "Log in to book. It takes 10 seconds 💜"; return; }
+  const { data: pr } = await db.from("profiles").select("full_name,phone").eq("user_id", me.id).maybeSingle(); prof = pr || {};
+  $("delme").onclick = async e => { e.preventDefault(); if (!confirm("Delete your account and all your booking history? This cannot be undone.")) return; const { error } = await db.rpc("delete_my_account"); if (error) return alert(error.message); await db.auth.signOut({ scope: "local" }); location.href = "index.html"; };
   $("as").textContent = "Booking as " + who().name + " 👑"; $("mylink").hidden = false; $("mine").hidden = false;
   $("acct").textContent = "Logout"; $("acct").href = "#";
   $("acct").onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.reload(); };

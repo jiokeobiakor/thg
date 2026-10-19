@@ -16,7 +16,7 @@ async function refresh() {
   $("list").innerHTML = (data || []).map(s => {
     const b = Array.isArray(s.bookings) ? s.bookings[0] : s.bookings;
     return `<div class="row"><span><b>${esc(s.slot_date)} · ${esc(s.slot_time)}</b><br>${b ? `👑 ${esc(b.name)} · ${esc(b.phone)} · ${esc(b.style)}${b.notes ? " · " + esc(b.notes) : ""}` : "Open"}</span>
-    <span>${b ? (b.status === "done" ? "✅ Done" : `<button onclick="doneB('${s.id}')">Done ✓</button> <button onclick="cancelB('${s.id}')">Cancel</button>`) : `<button onclick="removeS('${s.id}')">Remove</button>`}</span></div>`;
+    <span>${b ? (b.status === "done" ? "✅ Done" : `<button data-a="done" data-id="${s.id}">Done ✓</button> <button data-a="cancel" data-id="${s.id}">Cancel</button>`) : `<button data-a="rm" data-id="${s.id}">Remove</button>`}</span></div>`;
   }).join("") || "Nothing yet.";
 }
 async function removeS(id) { await db.from("slots").delete().eq("id", id); refresh(); }
@@ -33,10 +33,12 @@ $("sf").onsubmit = async e => {
 };
 async function loadStyles() {
   const { data } = await db.from("styles").select("*").order("created_at");
-  $("sl").innerHTML = (data || []).map(s => `<div class="row"><span><img src="${esc(s.img)}" width="40" style="border-radius:8px;vertical-align:middle"> ${esc(s.name)} · ${esc(s.price || "Negotiable")}</span><span><button onclick="editP('${s.id}')">Price</button> <button onclick="delS('${s.id}')">Delete</button></span></div>`).join("") || "No styles yet.";
+  $("sl").innerHTML = (data || []).map(s => `<div class="row"><span><img src="${esc(s.img)}" width="40" style="border-radius:8px;vertical-align:middle"> ${esc(s.name)} · ${esc(s.price || "Negotiable")}</span><span><button data-a="edit" data-id="${s.id}">Price</button> <button data-a="del" data-id="${s.id}">Delete</button></span></div>`).join("") || "No styles yet.";
 }
 async function editP(id) { const p = prompt("New price (blank = negotiable)"); if (p === null) return; await db.from("styles").update({ price: p || null }).eq("id", id); loadStyles(); }
 async function delS(id) { if (confirm("Delete this style?")) { await db.from("styles").delete().eq("id", id); loadStyles(); } }
-async function loadSet() { const { data } = await db.from("settings").select("*").eq("id", 1).single(); if (data) { $("wa").value = data.whatsapp || ""; $("ig").value = data.instagram || ""; $("pi").value = data.pay_info || ""; } }
+async function loadSet() { const { data } = await db.from("settings").select("whatsapp,instagram").eq("id", 1).single(); const { data: pi } = await db.rpc("get_pay_info"); if (data) { $("wa").value = data.whatsapp || ""; $("ig").value = data.instagram || ""; } $("pi").value = pi || ""; }
 $("set").onsubmit = async e => { e.preventDefault(); const { error } = await db.from("settings").update({ whatsapp: $("wa").value, instagram: $("ig").value.trim(), pay_info: $("pi").value }).eq("id", 1); alert(error ? error.message : "Saved ✅"); };
 async function doneB(id) { await db.from("bookings").update({ status: "done" }).eq("slot_id", id); refresh(); }
+$("list").onclick = e => { const b = e.target.closest("button[data-a]"); if (b) ({ done: doneB, cancel: cancelB, rm: removeS })[b.dataset.a](b.dataset.id); };
+$("sl").onclick = e => { const b = e.target.closest("button[data-a]"); if (b) ({ edit: editP, del: delS })[b.dataset.a](b.dataset.id); };

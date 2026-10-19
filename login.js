@@ -1,0 +1,20 @@
+
+const db=supabase.createClient(CFG.url,CFG.key),$=id=>document.getElementById(id);
+$("wall").innerHTML=[0,1,2,3].map(c=>{const s=[0,1,2].map(k=>`<img src="img/c${(c*3+k)%12+1}.jpg" alt="">`).join("");return`<div class="col">${s+s}</div>`}).join("");
+$("bubs").innerHTML=Array.from({length:8},()=>{const s=8+Math.random()*26;return`<span class="bub" style="width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*8}s"></span>`}).join("");
+$("ttl").innerHTML=[..."Welcome back, Queen"].map((c,i)=>`<span style="animation-delay:${.7+i*.04}s">${c===" "?"&nbsp;":c}</span>`).join("");
+let busy=0;addEventListener("mousemove",e=>{if(busy)return;busy=1;requestAnimationFrame(()=>{busy=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$("f").style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`})});
+$("eye").onclick=()=>{$("pw").type=$("pw").type==="password"?"text":"password"};
+let signup=false;
+$("mode").onclick=e=>{e.preventDefault();signup=!signup;$("name").hidden=$("phone").hidden=!signup;$("name").required=$("phone").required=signup;$("go").textContent=signup?"Create my account":"Enter the Gallery";$("mode").textContent=signup?"Already have an account? Log in":"New here? Create an account";$("pw").minLength=signup?8:0;$("consent").hidden=!signup;$("ok").required=signup;$("forgot").hidden=signup;$("err").textContent=""};
+const fail=m=>{$("go").disabled=false;$("err").textContent=m;const w=$("cw");w.classList.remove("shake");void w.offsetWidth;w.classList.add("shake")};
+$("f").onsubmit=async e=>{e.preventDefault();$("go").disabled=true;$("err").textContent="";
+ const em=$("email").value,pw=$("pw").value;let r;
+ r=signup?await db.auth.signUp({email:em,password:pw,options:{data:{full_name:$("name").value,phone:$("phone").value}}}):await db.auth.signInWithPassword({email:em,password:pw});
+ if(r.error)return fail(signup?r.error.message:"Wrong email or password 💜");
+ if(!r.data.session)return fail("Check your email to confirm, then log in 💜");
+ const{data:adm}=await db.rpc("is_admin");
+ document.body.classList.add("enter");setTimeout(()=>location.href=adm?"admin.html":"index.html",1100)};
+db.auth.getSession().then(async({data})=>{if(!data.session)return;const{data:a}=await db.rpc("is_admin");$("err").style.color="var(--tx)";$("err").innerHTML=`You are already signed in 👑<br><a href="${a?"admin.html":"index.html"}">Continue</a> · <a href="#" id="so">Sign out</a>`;$("so").onclick=async e=>{e.preventDefault();await db.auth.signOut();location.reload()}});
+$("forgot").onclick=async e=>{e.preventDefault();const em=$("email").value;if(!em)return fail("Type your email first 💜");await db.auth.resetPasswordForEmail(em,{redirectTo:location.origin+"/login.html"});$("go").disabled=false;$("err").textContent="If that email has an account, a reset link was sent 💜"};
+db.auth.onAuthStateChange(async ev=>{if(ev==="PASSWORD_RECOVERY"){const p=prompt("Type your new password (8+ characters)");if(p&&p.length>=8){const{error}=await db.auth.updateUser({password:p});alert(error?error.message:"Password updated ✅")}}});

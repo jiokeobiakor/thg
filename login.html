@@ -43,7 +43,10 @@ body{min-height:100vh;overflow:hidden;display:grid;place-items:center}
 <h1 id="ttl"></h1><p class="sub" style="margin:0">Sign in to manage your bookings 👑</p>
 <input id="name" placeholder="Full name" maxlength="60" hidden><input id="phone" type="tel" placeholder="Phone / WhatsApp" maxlength="20" pattern="[+0-9 ()\-]{7,20}" hidden>
 <input id="email" type="email" placeholder="Email" required autocomplete="username">
-<div class="pw"><input id="pw" type="password" placeholder="Password" required autocomplete="current-password"><button type="button" id="eye" aria-label="Show password">👁</button></div>
+<div class="pw" id="pwbox"><input id="pw" type="password" placeholder="Password" required autocomplete="current-password"><button type="button" id="eye" aria-label="Show password">👁</button></div>
+<input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit code" hidden>
+<input id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px">
+<div id="cf"></div>
 <label id="consent" hidden style="display:flex;gap:8px;align-items:center;font-size:.8rem"><input type="checkbox" id="ok" style="width:auto"> I agree to the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></label>
 <button class="btn" id="go">Enter the Gallery</button><p id="err"></p><a href="#" class="back" id="forgot">Forgot password?</a><a href="#" class="back" id="mode">New here? Create an account</a><a class="back" href="index.html">← Back to site</a>
 </form></main>

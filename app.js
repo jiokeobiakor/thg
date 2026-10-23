@@ -1,3 +1,4 @@
+if (location.hash.includes("type=recovery")) location.replace("reset.html" + location.hash);
 const db = supabase.createClient(CFG.url, CFG.key);
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");

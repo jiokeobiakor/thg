@@ -10,6 +10,7 @@
 <form id="sf" class="card"><h2>Add a hairstyle</h2><input id="sn" placeholder="Style name" maxlength="80" required><input id="sp" maxlength="40" placeholder="Price (optional, blank = negotiable)"><input id="si" type="file" accept="image/*" required><button class="btn">Upload</button></form>
 <div class="card"><h2>My styles</h2><div id="sl"></div></div>
 <form id="set" class="card"><h2>Settings</h2><label>WhatsApp (country code, no +)<input id="wa"></label><label>Instagram username (no @)<input id="ig"></label><label>Payment details shown after booking<textarea id="pi" placeholder="Bank / Revolut / Wise details"></textarea></label><button class="btn">Save</button></form>
+<div class="card"><h2>Security</h2><p id="mfastate" class="sub" style="margin:0">2-step login is OFF</p><button class="btn" id="mfa" type="button">Turn on 2-step login</button><img id="qr" alt="QR code" hidden width="180" height="180" style="background:#fff;border-radius:12px;margin:auto"><p id="secret" class="sub"></p><form id="mfaform" hidden><input id="mcode" inputmode="numeric" maxlength="6" placeholder="6-digit code" required><button class="btn">Verify &amp; turn on</button></form></div>
 <div class="card"><h2>Upcoming</h2><div id="list"></div><button class="btn" id="out">Logout</button></div>
 </div></section>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="admin.js"></script></body></html>

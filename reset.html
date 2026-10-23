@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New password · THG</title><link rel="icon" href="img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head>
+<body style="display:grid;place-items:center;min-height:100vh;margin:0">
+<form class="card" id="f" hidden style="width:min(92vw,420px)">
+<h2>Set a new password</h2>
+<input id="p1" type="password" minlength="10" placeholder="New password (10+ characters)" autocomplete="new-password" required>
+<input id="p2" type="password" minlength="10" placeholder="Type it again" autocomplete="new-password" required>
+<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="sh" style="width:auto"> Show passwords</label>
+<button class="btn" id="go">Save new password</button><p id="m" style="color:#d6336c;min-height:1.2em"></p>
+</form>
+<div class="card" id="bad" hidden style="width:min(92vw,420px);text-align:center"><h2>Link problem</h2><p id="bt"></p><a class="btn" href="login.html">Back to login</a></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="reset.js"></script></body></html>

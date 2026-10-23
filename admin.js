@@ -1,8 +1,8 @@
 const db = supabase.createClient(CFG.url, CFG.key);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
 const $ = id => document.getElementById(id);
-const show = on => { $("panel").hidden = !on; if (on) { refresh(); loadStyles(); loadSet(); } };
-db.auth.getSession().then(async ({ data }) => { if (!data.session) return location.replace("login.html"); const { data: a } = await db.rpc("is_admin"); a ? show(true) : location.replace("index.html"); });
+const show = on => { $("panel").hidden = !on; if (on) { refresh(); loadStyles(); loadSet(); mfaStatus(); } };
+db.auth.getSession().then(async ({ data }) => { if (!data.session) return location.replace("login.html"); const { data: l } = await db.auth.mfa.getAuthenticatorAssuranceLevel(); if (l && l.nextLevel === "aal2" && l.currentLevel !== "aal2") return location.replace("login.html"); const { data: a } = await db.rpc("is_admin"); a ? show(true) : location.replace("index.html"); });
 $("out").onclick = async () => { await db.auth.signOut(); location.href = "login.html"; };
 $("add").onsubmit = async e => {
   e.preventDefault();
@@ -42,3 +42,20 @@ $("set").onsubmit = async e => { e.preventDefault(); const { error } = await db.
 async function doneB(id) { await db.from("bookings").update({ status: "done" }).eq("slot_id", id); refresh(); }
 $("list").onclick = e => { const b = e.target.closest("button[data-a]"); if (b) ({ done: doneB, cancel: cancelB, rm: removeS })[b.dataset.a](b.dataset.id); };
 $("sl").onclick = e => { const b = e.target.closest("button[data-a]"); if (b) ({ edit: editP, del: delS })[b.dataset.a](b.dataset.id); };
+
+let fid = null;
+async function mfaStatus() { const { data } = await db.auth.mfa.listFactors(); if (data && data.totp && data.totp.length) { $("mfastate").textContent = "✅ 2-step login is ON"; $("mfa").hidden = true; } }
+$("mfa").onclick = async () => {
+  const { data, error } = await db.auth.mfa.enroll({ factorType: "totp", friendlyName: "Phone " + Date.now() });
+  if (error) return alert(error.message);
+  fid = data.id; $("qr").src = data.totp.qr_code; $("qr").hidden = false;
+  $("secret").textContent = "Can't scan? Type this key into your app: " + data.totp.secret; $("mfaform").hidden = false;
+};
+$("mfaform").onsubmit = async e => {
+  e.preventDefault();
+  const { error } = await db.auth.mfa.challengeAndVerify({ factorId: fid, code: $("mcode").value.trim() });
+  if (error) return alert("Wrong code. Try again.");
+  alert("2-step login is ON ✅"); location.reload();
+};
+let idle; const bump = () => { clearTimeout(idle); idle = setTimeout(async () => { await db.auth.signOut(); location.href = "login.html"; }, 30 * 60 * 1000); };
+["click", "keydown", "touchstart", "mousemove"].forEach(v => addEventListener(v, bump, { passive: true })); bump();

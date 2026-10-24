@@ -2,22 +2,19 @@ if (location.hash.includes("type=recovery")) location.replace("reset.html" + loc
 const db = supabase.createClient(CFG.url, CFG.key);
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
-let slots = [], pick = null, cfg = { whatsapp: "2347087344453", pay_info: "", instagram: "" };
-const igUser = () => String(cfg.instagram || "").replace(/^.*instagram\.com\//, "").replace(/^@/, "").split(/[/?]/)[0];
+let slots = [], pick = null, cfg = { instagram: "thehairgallery_thg" };
+const igUser = () => String(cfg.instagram || "").replace(/^.*instagram\.com\//, "").replace(/^@/, "").split(/[/?]/)[0] || "thehairgallery_thg";
 const say = m => $("msg").innerHTML = m;
-const wa = t => `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(t)}`;
 
 async function init() {
   const [{ data: st }, { data: se }] = await Promise.all([
     db.from("styles").select("*").order("created_at"),
-    db.from("settings").select("id,whatsapp,instagram").eq("id", 1).single()]);
-  if (se) cfg = se;
+    db.from("settings").select("id,instagram").eq("id", 1).single()]);
+  if (se && se.instagram) cfg = se;
   const list = st || [];
   $("grid").innerHTML = list.map(s => `<figure class="reveal" data-s="${esc(s.name)}"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy"><figcaption>${esc(s.name)}<small>${s.price ? esc(s.price) : "Negotiable"}</small></figcaption></figure>`).join("") || `<p class="sub">Gallery coming soon 💜</p>`;
   $("style").innerHTML = list.map(s => `<option>${esc(s.name)}</option>`).join("");
-  const ig = igUser();
-  if (ig) document.body.insertAdjacentHTML("beforeend", `<a class="btn wa ig" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(ig)}">📸 Instagram DM</a>`);
-  document.body.insertAdjacentHTML("beforeend", `<a class="btn wa" target="_blank" rel="noopener noreferrer" href="${wa("Hi! I'd like to ask about a hairstyle and the price.")}">💬 Chat / negotiate</a>`);
+  document.body.insertAdjacentHTML("beforeend", `<a class="btn wa" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">📸 Chat on Instagram</a>`);
 }
 $("grid").addEventListener("error", e => { if (e.target.tagName === "IMG") e.target.remove(); }, true);
 $("grid").onclick = e => { const f = e.target.closest("figure"); if (f) { $("style").value = f.dataset.s; $("book").scrollIntoView(); } };
@@ -47,7 +44,8 @@ $("form").onsubmit = async e => {
   const t = `Hi! I'm ${name}. I just booked ${style} on ${s.slot_date} at ${s.slot_time}. Can we confirm the price?`;
   e.target.reset();
   const { data: pay } = await db.rpc("get_pay_info");
-  say(`Booked! ✅ Tap below to confirm the price with her.<br>${pay ? `<br><b>Payment details:</b><br>${esc(pay).replace(/\n/g, "<br>")}<br><br>` : ""}<a class="btn" target="_blank" rel="noopener noreferrer" href="${wa(t)}">Confirm on WhatsApp 💬</a>${igUser() ? ` <a class="btn" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Message on Instagram 📸</a>` : ""}`);
+  say(`Booked! ✅ Last step: message us on Instagram to confirm your price.<br>${pay ? `<br><b>Payment details:</b><br>${esc(pay).replace(/\n/g, "<br>")}<br><br>` : ""}<button class="btn" id="cp" type="button">Copy booking details</button> <a class="btn" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Open Instagram DM 📸</a>`);
+  $("cp").onclick = async () => { try { await navigator.clipboard.writeText(t); $("cp").textContent = "Copied ✅ Paste it in the DM"; } catch { $("cp").textContent = "Copy failed. Type your details in the DM."; } };
   load(); hist();
 };
 

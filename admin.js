@@ -37,8 +37,8 @@ async function loadStyles() {
 }
 async function editP(id) { const p = prompt("New price (blank = negotiable)"); if (p === null) return; await db.from("styles").update({ price: p || null }).eq("id", id); loadStyles(); }
 async function delS(id) { if (confirm("Delete this style?")) { await db.from("styles").delete().eq("id", id); loadStyles(); } }
-async function loadSet() { const { data } = await db.from("settings").select("whatsapp,instagram").eq("id", 1).single(); const { data: pi } = await db.rpc("get_pay_info"); if (data) { $("wa").value = data.whatsapp || ""; $("ig").value = data.instagram || ""; } $("pi").value = pi || ""; }
-$("set").onsubmit = async e => { e.preventDefault(); const { error } = await db.from("settings").update({ whatsapp: $("wa").value, instagram: $("ig").value.trim(), pay_info: $("pi").value }).eq("id", 1); alert(error ? error.message : "Saved ✅"); };
+async function loadSet() { const { data } = await db.from("settings").select("instagram").eq("id", 1).single(); const { data: pi } = await db.rpc("get_pay_info"); if (data) { $("ig").value = data.instagram || ""; } $("pi").value = pi || ""; }
+$("set").onsubmit = async e => { e.preventDefault(); const { error } = await db.from("settings").update({ instagram: $("ig").value.trim(), pay_info: $("pi").value }).eq("id", 1); alert(error ? error.message : "Saved ✅"); };
 async function doneB(id) { await db.from("bookings").update({ status: "done" }).eq("slot_id", id); refresh(); }
 $("list").onclick = e => { const b = e.target.closest("button[data-a]"); if (b) ({ done: doneB, cancel: cancelB, rm: removeS })[b.dataset.a](b.dataset.id); };
 $("sl").onclick = e => { const b = e.target.closest("button[data-a]"); if (b) ({ edit: editP, del: delS })[b.dataset.a](b.dataset.id); };

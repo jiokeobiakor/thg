@@ -14,7 +14,7 @@ async function init() {
   const list = st || [];
   $("grid").innerHTML = list.map(s => `<figure class="reveal" data-s="${esc(s.name)}"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy"><figcaption>${esc(s.name)}<small>${s.price ? esc(s.price) : "Negotiable"}</small></figcaption></figure>`).join("") || `<p class="sub">Gallery coming soon 💜</p>`;
   $("style").innerHTML = list.map(s => `<option>${esc(s.name)}</option>`).join("");
-  document.body.insertAdjacentHTML("beforeend", `<a class="btn wa" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">📸 Chat on Instagram</a>`);
+  document.body.insertAdjacentHTML("beforeend", `<a class="btn dm" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">📸 Chat on Instagram</a>`);
 }
 $("grid").addEventListener("error", e => { if (e.target.tagName === "IMG") e.target.remove(); }, true);
 $("grid").onclick = e => { const f = e.target.closest("figure"); if (f) { $("style").value = f.dataset.s; $("book").scrollIntoView(); } };

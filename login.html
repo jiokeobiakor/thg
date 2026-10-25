@@ -4,8 +4,10 @@
 body{min-height:100vh;overflow:hidden;display:grid;place-items:center}
 .wall{position:fixed;inset:-25%;display:flex;gap:18px;justify-content:center;transform:rotate(-12deg) translate(var(--px,0),var(--py,0));z-index:0;will-change:transform}
 .col{flex:0 0 220px;will-change:transform;animation:up 40s linear infinite}
-.col:nth-child(even){animation-name:down;animation-duration:50s}.col:nth-child(3){animation-duration:32s}
-@keyframes up{to{transform:translateY(-50%)}}@keyframes down{from{transform:translateY(-50%)}to{transform:none}}
+.col:nth-child(even){animation-name:down;animation-duration:50s}
+.col:nth-child(3){animation-duration:32s}
+@keyframes up{to{transform:translateY(-50%)}}
+@keyframes down{from{transform:translateY(-50%)}to{transform:none}}
 .col img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;margin-bottom:18px;border-radius:18px;border:4px solid var(--card)}
 .veil{position:fixed;inset:0;z-index:1;background:radial-gradient(circle,color-mix(in srgb,var(--bg) 30%,transparent),color-mix(in srgb,var(--bg) 85%,transparent)),linear-gradient(135deg,#b79df055,#7c4dcc77)}
 .bub{position:fixed;bottom:-60px;z-index:2;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#b79df0aa);animation:bub linear infinite;opacity:0}
@@ -21,18 +23,30 @@ body{min-height:100vh;overflow:hidden;display:grid;place-items:center}
 .ring{width:96px;height:96px;margin:-48px auto 0;border-radius:50%;overflow:hidden;border:3px solid var(--pri);background:#fff;animation:pulse 2.4s ease-in-out infinite,pop 1s .3s backwards}
 .ring img{width:100%;height:100%;object-fit:cover}
 @keyframes pulse{50%{box-shadow:0 0 0 14px #b79df033,0 0 40px #b79df0aa}}
-#ttl{font-size:1.8rem;line-height:1.2}#ttl span{display:inline-block;animation:letter .7s backwards}
+#ttl{font-size:1.8rem;line-height:1.2}
+#ttl span{display:inline-block;animation:letter .7s backwards}
 @keyframes letter{from{opacity:0;transform:translateY(30px) rotate(14deg)}}
-.glass>*:not(.ring):not(#ttl){animation:rise .8s backwards}
-.glass>:nth-child(3){animation-delay:1.3s}.glass>:nth-child(4){animation-delay:1.45s}.glass>:nth-child(5){animation-delay:1.6s}.glass>:nth-child(6){animation-delay:1.75s}.glass>:nth-child(7),.glass>:nth-child(8){animation-delay:1.9s}
+.glass>*{animation:rise .8s backwards}
+.glass>.ring{animation:pulse 2.4s ease-in-out infinite,pop 1s .3s backwards}
+.glass>#ttl{animation:none}
+.glass>:nth-child(3){animation-delay:1.3s}
+.glass>:nth-child(4){animation-delay:1.45s}
+.glass>:nth-child(5){animation-delay:1.6s}
+.glass>:nth-child(6){animation-delay:1.75s}
+.glass>:nth-child(7),.glass>:nth-child(8){animation-delay:1.9s}
 @keyframes rise{from{opacity:0;transform:translateY(24px)}}
-.glass input{width:100%;transition:.25s}.glass input:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px #b79df055;transform:scale(1.02)}
-.pw{position:relative}.pw button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;cursor:pointer;font-size:1.1rem}
-.glass .btn{position:relative;overflow:hidden}.glass .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff8,transparent);transform:skewX(-20deg);animation:sweep 2.6s infinite}
+.glass input{width:100%;transition:.25s}
+.glass input:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px #b79df055;transform:scale(1.02)}
+.pw{position:relative}
+.pw button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;cursor:pointer;font-size:1.1rem}
+.glass .btn{position:relative;overflow:hidden}
+.glass .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff8,transparent);transform:skewX(-20deg);animation:sweep 2.6s infinite}
 @keyframes sweep{to{left:130%}}
-#err{color:#d6336c;min-height:1.2em;font-size:.9rem}.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+#err{color:#d6336c;min-height:1.2em;font-size:.9rem}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
 .enter .card-wrap{transition:.9s;transform:scale(1.7);opacity:0;filter:blur(12px)}
-.enter .wall{filter:brightness(1.3)}.enter .col{animation-duration:5s!important}
+.enter .wall{filter:brightness(1.3)}
+.enter .col{animation-duration:5s!important}
 @media(max-width:700px){.bub{display:none}.col:nth-child(4){display:none}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
 </style></head><body>

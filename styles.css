@@ -19,7 +19,7 @@ input,select,textarea{padding:11px;border-radius:12px;border:1px solid var(--pri
 .reveal{opacity:0;transform:translateY(34px);transition:.8s}.reveal.show{opacity:1;transform:none}
 .row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--pri);font-size:.9rem}
 .row button{background:none;border:1px solid var(--acc);color:var(--tx);border-radius:10px;cursor:pointer}
-.wa{position:fixed;right:18px;bottom:18px;z-index:9;padding:12px 18px}
+.dm{position:fixed;right:18px;bottom:18px;z-index:9;padding:12px 18px}
 
 .grid{columns:3 230px;column-gap:18px}
 figure{break-inside:avoid;margin:0 0 18px;padding:8px 8px 12px;border-radius:16px;background:var(--card);border:1px solid var(--pri);box-shadow:0 8px 24px #7c4dcc22;cursor:pointer;transition:.3s;min-height:120px}
@@ -32,5 +32,4 @@ figcaption small{color:var(--acc);font:500 .8rem Poppins}.brand{display:flex;ali
 .hero::before{content:"";position:absolute;inset:0;background:url(img/logo.jpg) center/contain no-repeat;opacity:.16;mix-blend-mode:multiply;z-index:0}
 [data-theme=dark] .hero::before{filter:invert(1);mix-blend-mode:screen;opacity:.1}
 .hero>div{position:relative;z-index:1}
-.wa.ig{bottom:72px}
 [hidden]{display:none!important}

@@ -89,6 +89,8 @@ async function account() {
   $("as").textContent = "Booking as " + who().name + " 👑"; $("agree").required = true; $("mylink").hidden = false; $("mine").hidden = false;
   $("acct").textContent = "Logout"; $("acct").href = "#";
   $("acct").onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.reload(); };
+  // Owner only: link back to the admin pages
+  const { data: adm } = await db.rpc("is_admin"); $("dash").hidden = !adm;
   hist();
 }
 async function hist() {

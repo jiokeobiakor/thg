@@ -1,15 +1,28 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Hair Gallery</title><link rel="icon" href="img/logo.jpg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>The Hair Gallery</title><meta name="theme-color" content="#7c4dcc"><link rel="icon" href="img/logo.jpg"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head><body>
-<nav><a class="brand" href="#"><img src="img/logo.jpg" alt="logo"><b class="logo">T.H.G</b></a><div><a href="#gallery">Gallery</a><a href="#book">Book</a><a href="#mine" id="mylink" hidden>My bookings</a><a href="login.html" id="acct">Login</a><button id="theme" aria-label="Toggle theme">🌙</button></div></nav>
-<header class="hero"><div class="reveal"><h1>The Hair Gallery</h1><p>Braids, locs &amp; styles fit for royalty 👑</p><a class="btn" href="#book">Book your crown</a></div></header>
-<section id="gallery"><h2 class="reveal">The Gallery</h2><p class="sub reveal">Tap a style to book it · prices are negotiable via Instagram DM</p><div id="grid" class="grid"></div></section>
+<nav><a class="brand" href="#"><img src="img/logo.jpg" alt="logo"><b class="logo">T.H.G</b></a>
+<div class="links" id="links"><a href="#gallery">Gallery</a><a href="#prices">Prices</a><a href="#policies">Policies</a><a href="#shop" id="shoplink" hidden>Shop</a><a href="#book">Book</a><a href="#mine" id="mylink" hidden>My bookings</a><a href="login.html" id="acct">Login</a></div>
+<div class="navr"><button id="theme" aria-label="Toggle theme">🌙</button><button id="burger" class="burger" aria-label="Menu" aria-expanded="false">☰</button></div></nav>
+<header class="hero"><div class="reveal"><h1>The Hair Gallery</h1><p>Braids, locs &amp; styles fit for royalty 👑</p><div class="btns"><a class="btn" href="#book">Book your crown</a><a class="btn alt" href="#prices">See prices</a></div></div></header>
+<section id="gallery"><h2 class="reveal">The Gallery</h2><p class="sub reveal">Tap a style to book it · final prices can be discussed via Instagram DM</p><div id="grid" class="grid"></div></section>
+<section id="services" hidden><h2 class="reveal">Our Services</h2><div id="svc" class="two"></div></section>
+<section id="prices" hidden><h2 class="reveal">Price List</h2><p class="sub reveal">Starting prices · final prices can be discussed via Instagram DM</p><div id="prl" class="pgrid2"></div><p id="pnote" class="note" hidden></p></section>
+<section id="policies" hidden><h2 class="reveal">Our Policies</h2><div id="pol" class="pol"></div><p id="polnote" class="note" hidden></p></section>
+<section id="shop" hidden><h2 class="reveal">The Shop</h2><p class="sub reveal">Hair oils and care products · for prices and enquiries, message us on Instagram</p><div id="pgrid" class="grid"></div><p id="shopmsg" class="sub"></p></section>
 <section id="book"><h2 class="reveal">Book an Appointment</h2>
 <form id="form" class="card reveal"><p id="as" class="sub" style="margin:0"></p>
 <label>Hairstyle<select id="style" required></select></label>
+<div class="bar2"><label>Size<select id="bsize"><option value="">Not sure</option><option>Large</option><option>Medium</option><option>Small</option></select></label><label>Length<select id="blen"><option value="">Not sure</option><option>Short</option><option>Medium</option><option>Long (waist)</option></select></label></div>
+<div class="studio" id="studio"><div class="st-head"><b>Colour studio</b><span id="stname"></span></div>
+<div class="st-body"><div id="prev" class="prev"></div><div class="st-ctl"><div class="seg" id="mode"><button type="button" data-m="solid" class="on">Solid</button><button type="button" data-m="mixed">Mixed</button><button type="button" data-m="ombre">Ombré</button></div><div class="seg" id="slot"><button type="button" data-s="0" class="on"><i class="dot" id="d0"></i> Colour 1</button><button type="button" data-s="1"><i class="dot" id="d1"></i> Colour 2</button></div></div></div>
+<div id="sw" class="sw"></div><div class="bar2"><label class="custom">Any other colour <input type="color" id="cust" value="#7c4dcc"></label><button type="button" class="linkbtn" id="strst">Reset colours</button></div></div>
 <label>Date<select id="date" required></select></label>
 <div id="times" class="times"></div>
-<label>Notes (optional)<textarea id="notes" maxlength="300"></textarea></label>
+<label>Notes (optional)<textarea id="notes" maxlength="260"></textarea></label>
+<label class="agree"><input type="checkbox" id="agree"><span>I have read and accept the <a href="#policies">policies</a> (cancellation, lateness and bringing extensions beforehand).</span></label>
 <button class="btn" id="bk">Confirm booking</button><p id="msg"></p></form></section>
-<section id="mine" hidden><h2 class="reveal">My Bookings</h2><div id="hist" class="card"></div><p class="sub"><a href="#" id="delme">Delete my account &amp; data</a></p></section>
+<section id="mine" hidden><h2 class="reveal">My Bookings</h2><div id="hist" class="card"></div><h3 class="sub" style="text-align:center;margin:18px 0 6px">My orders</h3><div id="ohist" class="card"></div><p class="sub"><a href="#" id="delme">Delete my account &amp; data</a></p></section>
 <footer>© The Hair Gallery · <a href="privacy.html">Privacy</a></footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="app.js"></script></body></html>
+<dialog id="od"><form method="dialog" class="card" id="of"><h2 id="otitle"></h2><label>Quantity<input id="oq" type="number" min="1" max="10" value="1" required></label><label>Note (optional)<textarea id="on" maxlength="200"></textarea></label><div class="bar2"><button class="btn" id="osend" value="ok">Send order request</button><button value="cancel" formnovalidate>Cancel</button></div><p id="om" style="color:#d6336c;min-height:1.2em"></p></form></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="ui.js"></script><script src="studio.js"></script><script src="app.js"></script></body></html>

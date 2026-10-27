@@ -1,16 +1,80 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THG Admin</title><link rel="icon" href="img/logo.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head><body>
-<nav><a class="brand" href="#"><img src="img/logo.jpg" alt="logo"><b class="logo">THG Admin</b></a><button id="theme">🌙</button></nav>
-<section>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#7c4dcc"><title>THG Admin</title><link rel="icon" href="img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head><body class="adm">
+<nav><a class="brand" href="#"><img src="img/logo.jpg" alt="logo"><b class="logo">THG Admin</b></a><div><a href="index.html">View site</a><button id="theme">🌙</button></div></nav>
 <div id="panel" hidden>
-<form id="add" class="card"><h2>Add availability</h2>
-<label>Date<input id="d" type="date" required></label>
-<label>Times (comma separated)<input id="t" placeholder="9:00 AM, 1:00 PM, 4:00 PM" required></label>
-<button class="btn">Add</button></form>
-<form id="sf" class="card"><h2>Add a hairstyle</h2><input id="sn" placeholder="Style name" maxlength="80" required><input id="sp" maxlength="40" placeholder="Price (optional, blank = negotiable)"><input id="si" type="file" accept="image/*" required><button class="btn">Upload</button></form>
+<div class="admwrap"><div class="tabs" id="tabs" role="navigation" aria-label="Admin sections">
+<button data-t="dash" class="on"><i>📊</i><span>Dashboard</span></button>
+<button data-t="appt"><i>📅</i><span>Bookings</span></button>
+<button data-t="reg"><i>📒</i><span>Register</span></button>
+<button data-t="shop"><i>🛍️</i><span>Shop</span></button>
+<button data-t="dates"><i>🗓️</i><span>Dates</span></button>
+<button data-t="styles"><i>💇🏾‍♀️</i><span>Styles</span></button>
+<button data-t="content"><i>📝</i><span>Content</span></button>
+<button data-t="set"><i>⚙️</i><span>Settings</span></button>
+<button type="button" id="out" class="outb"><i>🚪</i><span>Logout</span></button>
+</div><main class="admmain">
+
+<div class="tab" id="t-dash">
+<div class="card"><div class="bar2"><select id="cur"></select><select id="per"><option value="m">This month</option><option value="3">Last 3 months</option><option value="12" selected>Last 12 months</option><option value="all">All time</option></select></div><div id="stats" class="stats"></div></div>
+<div class="card"><h2>Revenue by month</h2><div id="chart"></div><p class="sub" style="margin:0"><span class="dot s"></span> Appointments &nbsp; <span class="dot g"></span> Products</p></div>
+<div class="card"><h2>Top styles</h2><div id="topS"></div></div>
+<div class="card"><h2>Trending now</h2><p class="sub" style="margin:0">Last 30 days vs the 30 before. Pin a style to show a Trending badge on your site. Top styles are also badged automatically.</p><div id="trend"></div></div>
+<div class="card"><h2>Best-selling products</h2><div id="topP"></div></div>
+<div class="card"><h2>Busiest days</h2><div id="wk"></div></div>
+</div>
+
+<div class="tab" id="t-appt" hidden>
+<div class="card"><h2>Needs closing <span id="odc" class="tag"></span></h2><p class="sub" style="margin:0">Past appointments not yet marked done or cancelled.</p><div id="od"></div></div>
+<div class="card"><h2>Upcoming <span id="upc" class="tag"></span></h2><div id="up"></div></div>
+<form id="wf" class="card"><h2>Add a walk-in or past record</h2><select id="ws" required></select><input id="wd" type="date" required><input id="wn" placeholder="Client name" maxlength="80" required><div class="bar2"><input id="wp" type="number" min="0" step="0.01" placeholder="Price" required><select id="wc"></select></div><button class="btn">Save record</button></form>
+</div>
+
+<div class="tab" id="t-reg" hidden>
+<div class="card"><h2>Register</h2><p class="sub" style="margin:0">Every appointment and order, kept forever.</p>
+<select id="rk"><option value="appt">Appointments</option><option value="ord">Product orders</option></select>
+<div class="bar2"><input id="rf" type="date" aria-label="From"><input id="rt" type="date" aria-label="To"></div>
+<div class="bar2"><select id="rs"></select><input id="rq" placeholder="Search name or item" maxlength="40"></div>
+<div class="bar2"><button class="btn" id="rgo" type="button">Search</button><button class="btn" id="rcsv" type="button">Export CSV</button></div>
+<p id="rsum" class="sub"></p><div id="rl"></div>
+<div class="bar2"><button id="rp" type="button">‹ Prev</button><span id="rpg" class="sub"></span><button id="rn" type="button">Next ›</button></div></div>
+</div>
+
+<div class="tab" id="t-shop" hidden>
+<div class="card"><h2>Order requests <span id="ordc" class="tag"></span></h2><div id="ord"></div></div>
+<form id="pf" class="card"><h2>Add a product</h2><input id="pn" placeholder="Product name" maxlength="80" required><input id="pp" placeholder="Price (optional, e.g. NGN 8,000)" maxlength="40"><div class="bar2"><input id="ps" type="number" min="0" placeholder="Stock (blank = not tracked)"></div><textarea id="pd" maxlength="300" placeholder="Short description (optional)"></textarea><label class="fileup"><input id="pi2" type="file" accept="image/*"><b class="btn">📷 Choose photo</b><span>No file chosen</span></label><button class="btn">Add product</button></form>
+<div class="card"><h2>My products</h2><div id="pl"></div></div>
+<form id="mf" class="card"><h2>Record a sale</h2><input id="mpn" list="plist" placeholder="Product" maxlength="80" required><datalist id="plist"></datalist><div class="bar2"><input id="mq" type="number" min="1" max="100" value="1" required><input id="mc" placeholder="Customer (optional)" maxlength="80"></div><div class="bar2"><input id="mp" type="number" min="0" step="0.01" placeholder="Total price" required><select id="mu"></select></div><button class="btn">Save sale</button></form>
+</div>
+
+<div class="tab" id="t-dates" hidden>
+<form id="add" class="card"><h2>Add availability</h2><label>Date<input id="d" type="date" required></label><label>Times (comma separated)<input id="t" placeholder="9:00 AM, 1:00 PM, 4:00 PM" maxlength="120" required></label><button class="btn">Add</button></form>
+<div class="card"><h2>Open dates</h2><div id="slots"></div></div>
+</div>
+
+<div class="tab" id="t-styles" hidden>
+<form id="sf" class="card"><h2>Add a hairstyle</h2><input id="sn" placeholder="Style name" maxlength="80" required><input id="sp" maxlength="40" placeholder="Price (optional, blank = Ask on Instagram)"><label class="fileup"><input id="si" type="file" accept="image/*" required><b class="btn">📷 Choose photo</b><span>No file chosen</span></label><button class="btn">Upload</button></form>
 <div class="card"><h2>My styles</h2><div id="sl"></div></div>
-<form id="set" class="card"><h2>Settings</h2><label>Instagram username (no @)<input id="ig"></label><label>Payment details shown after booking<textarea id="pi" placeholder="Bank / Revolut / Wise details"></textarea></label><button class="btn">Save</button></form>
+</div>
+
+<div class="tab" id="t-content" hidden>
+<form id="cf" class="card"><h2>Website content</h2><p class="sub" style="margin:0">Edit what clients see: services, price list and policies. Format: <b># Heading</b>, <b>## Group</b>, and <b>Item | Price</b> lines. Policies: <b>Title | Text</b>.</p>
+<label>Services<textarea id="cs" class="big"></textarea></label><label>Price list<textarea id="cp" class="big"></textarea></label><label>Price note<textarea id="cpn"></textarea></label><label>Policies (one per line)<textarea id="cpo" class="big"></textarea></label><label>Policy warning<textarea id="cpl"></textarea></label><button class="btn">Save website content</button></form>
+</div>
+
+<div class="tab" id="t-set" hidden>
+<form id="set" class="card"><h2>Settings</h2><label>Instagram username (no @)<input id="ig"></label><label>Main currency<select id="cu"></select></label><label>Email for booking alerts<input id="ne" type="email" maxlength="120" placeholder="her@email.com"></label><div class="bar2"><button class="btn alt" type="button" id="mtest">Send test email</button></div><p id="mstat" class="sub" style="margin:0"></p><label>Payment details shown after booking<textarea id="pi" placeholder="Bank / Revolut / Wise details"></textarea></label><button class="btn">Save</button></form>
 <div class="card"><h2>Security</h2><p id="mfastate" class="sub" style="margin:0">2-step login is OFF</p><button class="btn" id="mfa" type="button">Turn on 2-step login</button><img id="qr" alt="QR code" hidden width="180" height="180" style="background:#fff;border-radius:12px;margin:auto"><p id="secret" class="sub"></p><form id="mfaform" hidden><input id="mcode" inputmode="numeric" maxlength="6" placeholder="6-digit code" required><button class="btn">Verify &amp; turn on</button></form></div>
-<div class="card"><h2>Upcoming</h2><div id="list"></div><button class="btn" id="out">Logout</button></div>
-</div></section>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="admin.js"></script></body></html>
+</div>
+</main></div>
+</div>
+
+<dialog id="edlg"><form method="dialog" class="card" id="ef"><h2 id="et">Edit</h2>
+<label>Name<input id="en" maxlength="80" required></label>
+<label>Price (blank = Ask on Instagram)<input id="ep" maxlength="40"></label>
+<label id="edw">Description<textarea id="ed" maxlength="300"></textarea></label>
+<label id="esw">Stock (blank = not tracked)<input id="es" type="number" min="0"></label>
+<div class="ephoto"><img id="eimg" alt="Current photo"><label class="fileup"><input id="efile" type="file" accept="image/*"><b class="btn">📷 Change photo</b><span>Keep current photo</span></label></div>
+<div class="bar2"><button class="btn" value="ok">Save</button><button value="cancel" formnovalidate>Cancel</button></div></form></dialog>
+<dialog id="dlg"><form method="dialog" class="card" id="df"><h2 id="dt"></h2><div class="bar2"><input id="dp" type="number" min="0" step="0.01" placeholder="Final price" required><select id="dc"></select></div><textarea id="dn" maxlength="300" placeholder="Note (optional)"></textarea><div class="bar2"><button class="btn" value="ok">Save</button><button value="cancel" formnovalidate>Cancel</button></div></form></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script><script src="ui.js"></script><script src="admin.js"></script></body></html>

@@ -1,2 +1,3 @@
 *.sql
 security-test.html
+.DS_Store

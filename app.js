@@ -19,7 +19,7 @@ async function init() {
   $("grid").innerHTML = list.map(s => `<figure class="reveal" data-s="${esc(s.name)}">${TRD.has(s.name) ? '<span class="badge">Trending</span>' : ""}<img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy" decoding="async"><figcaption>${esc(s.name)}<small>${s.price ? esc(s.price) : "Ask on Instagram"}</small></figcaption></figure>`).join("") || `<p class="sub">Gallery coming soon 💜</p>`;
   $("style").innerHTML = list.map(s => `<option>${esc(s.name)}</option>`).join("");
   const pl = pr || []; $("shop").hidden = !pl.length; $("shoplink").hidden = !pl.length;
-  $("pgrid").innerHTML = pl.map(p => `<figure class="reveal">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" decoding="async">` : ""}<figcaption>${esc(p.name)}<small>${p.price ? esc(p.price) : "Ask on Instagram"}</small></figcaption>${p.description ? `<p class="pd">${esc(p.description)}</p>` : ""}<button class="btn sm" type="button" data-p="${p.id}" data-n="${esc(p.name)}"${p.stock === 0 ? " disabled" : ""}>${p.stock === 0 ? "Sold out" : "Order"}</button></figure>`).join("");
+  $("pgrid").innerHTML = pl.map(p => `<figure class="reveal">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" decoding="async">` : ""}<figcaption>${esc(p.name)}<small>${p.price ? esc(p.price) : "Ask on Instagram"}</small></figcaption>${p.description ? `<p class="pd">${esc(p.description)}</p>` : ""}${stockLabel(p.stock)}<button class="btn sm" type="button" data-p="${p.id}" data-n="${esc(p.name)}" data-s="${p.stock ?? ""}"${p.stock === 0 ? " disabled" : ""}>${p.stock === 0 ? "Sold out" : "Order"}</button></figure>`).join("");
   renderContent(sc || []);
   document.body.insertAdjacentHTML("beforeend", `<a class="btn dm" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">📸<span> Chat on Instagram</span></a>`);
 }
@@ -102,9 +102,14 @@ async function hist() {
   const ot = { requested: "⏳ Requested", sold: "✅ Sold", cancelled: "✖ Cancelled" };
   $("ohist").innerHTML = (od || []).map(o => `<div class="row"><span><b>${esc(o.product_name)} × ${o.qty}</b><br>${esc(o.created_at.slice(0, 10))}${o.final_price != null ? " · " + esc(o.currency || "") + " " + Number(o.final_price).toLocaleString() : ""}</span><span>${ot[o.status] || ""}</span></div>`).join("") || "No orders yet.";
 }
+// Stock shown to clients: "Only N left" when 5 or fewer, "In stock" above that, nothing if stock isn't counted
+function stockLabel(n) {
+  if (n == null || n === 0) return "";
+  return n <= 5 ? `<p class="stk low">Only ${n} left</p>` : `<p class="stk">In stock</p>`;
+}
 let ordId = null;
 $("pgrid").addEventListener("error", e => { if (e.target.tagName === "IMG") e.target.remove(); }, true);
-$("pgrid").onclick = e => { const b = e.target.closest("button[data-p]"); if (!b || b.disabled) return; if (!me) return (location.href = "login.html"); ordId = b.dataset.p; $("otitle").textContent = b.dataset.n; $("oq").value = 1; $("on").value = ""; $("om").textContent = ""; $("od").showModal(); };
+$("pgrid").onclick = e => { const b = e.target.closest("button[data-p]"); if (!b || b.disabled) return; if (!me) return (location.href = "login.html"); ordId = b.dataset.p; $("otitle").textContent = b.dataset.n; $("oq").value = 1; $("oq").max = b.dataset.s ? Math.min(10, +b.dataset.s) : 10; $("on").value = ""; $("om").textContent = ""; $("od").showModal(); };
 $("of").onsubmit = async e => {
   e.preventDefault(); $("osend").disabled = true;
   const { error } = await db.rpc("place_order", { p_product: ordId, p_qty: parseInt($("oq").value, 10), p_note: $("on").value });

@@ -1,3 +1,7 @@
 *.sql
 security-test.html
 .DS_Store
+
+# large media, keep off GitHub
+*.mp4
+*.mov

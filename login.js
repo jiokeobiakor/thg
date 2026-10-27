@@ -2,7 +2,7 @@
 const db=supabase.createClient(CFG.url,CFG.key),$=id=>document.getElementById(id);
 $("wall").innerHTML=[0,1,2,3].map(c=>{const s=[0,1,2].map(k=>`<img src="img/c${(c*3+k)%12+1}.jpg" alt="">`).join("");return`<div class="col">${s+s}</div>`}).join("");
 $("bubs").innerHTML=Array.from({length:8},()=>{const s=8+Math.random()*26;return`<span class="bub" style="width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*8}s"></span>`}).join("");
-$("ttl").innerHTML=[..."Welcome back, Queen"].map((c,i)=>`<span style="animation-delay:${.7+i*.04}s">${c===" "?"&nbsp;":c}</span>`).join("");
+$("ttl").innerHTML=[..."Welcome back"].map((c,i)=>`<span style="animation-delay:${.7+i*.04}s">${c===" "?"&nbsp;":c}</span>`).join("");
 let busy=0;addEventListener("mousemove",e=>{if(busy)return;busy=1;requestAnimationFrame(()=>{busy=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$("f").style.transform=`perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg)`})});
 $("eye").onclick=()=>{$("pw").type=$("pw").type==="password"?"text":"password"};
 if(location.hash.includes("type=recovery"))location.replace("reset.html"+location.hash);

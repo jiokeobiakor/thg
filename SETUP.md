@@ -6,7 +6,7 @@ Do the parts in order. Each part says what to check before moving on.
 - Mobile-first redesign: menu button, 2 photos per row on phones, 48px tap targets, no sideways scrolling, installable like an app.
 - Services, Price List and Policies sections (editable by the owner in the dashboard), policy tick-box when booking, size and length choices.
 - Colour studio: tap real hair-colour swatches, see a live braid preview (solid, mixed or ombre).
-- Wording: "final prices can be discussed via Instagram DM". Instagram DM is the only contact route.
+- Wording: prices shown are the real prices; Instagram DM is for enquiries and is the only contact route.
 - Dashboard: tabs, price pop-up when she taps Done, permanent Register with search, filters and CSV export, revenue by month, trending styles, best sellers.
 - Shop for oils and other goods, with order requests, stock and a "record a sale" form.
 - Edit button for My styles and My products (name, price, photo, stock). Renaming a style also updates old records.

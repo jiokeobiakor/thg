@@ -107,6 +107,6 @@ $("of").onsubmit = async e => {
   e.preventDefault(); $("osend").disabled = true;
   const { error } = await db.rpc("place_order", { p_product: ordId, p_qty: parseInt($("oq").value, 10), p_note: $("on").value });
   $("osend").disabled = false; if (error) { $("om").textContent = error.message; return; }
-  $("od").close(); $("shopmsg").innerHTML = `Request sent ✅ Message us on Instagram to agree the final price. <a class="btn sm" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Open Instagram DM 📸</a>`; hist();
+  $("od").close(); $("shopmsg").innerHTML = `Request sent ✅ Message us on Instagram to arrange payment and pickup. <a class="btn sm" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Open Instagram DM 📸</a>`; hist();
 };
 init(); load(); account();

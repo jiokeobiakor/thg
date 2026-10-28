@@ -5,3 +5,6 @@ security-test.html
 # large media, keep off GitHub
 *.mp4
 *.mov
+
+# client copies made by sell/new_client.py
+clients/

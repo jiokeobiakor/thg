@@ -1,7 +1,9 @@
-# Sales kit: booking websites for braiders and salons
+# Sales kit: websites for small businesses (goods and services)
 
 ## The offer
-"Your own booking website: clients pick a style, see your prices, book and order products. You get a dashboard with every booking, sales by month and an email for each new booking. No more lost DMs."
+"Your own website to sell your goods and services. Customers see your prices, book or order online, and you get a dashboard with every sale, revenue by month, trending items and an email for each new booking or order. No more lost DMs."
+
+Business types ready to go (run `python3 sell/new_client.py --list`): hair, beauty, barber, fashion, services, food, store.
 
 | Package | Price (Nigeria) | Price (Europe) | What they get |
 |---|---|---|---|
@@ -13,7 +15,7 @@
 - First 3 clients: give 30% off in return for a testimonial and permission to show their site as a demo.
 
 ## Where to find clients
-- Instagram: search #lagosbraider #abujabraids #braidsbudapest #londonbraider #knotlessbraids plus your city.
+- Instagram: search your city plus #braider #nailtech #barber #makeupartist #tailor #cakesinlagos #smallchops #thriftstore #perfumevendor.
 - Pick accounts with 500–20k followers whose bio says "DM to book". They have the problem you solve.
 - Facebook groups for salon owners, WhatsApp status, your campus, family and friends who know salon owners.
 - Aim for **20 DMs a day**. Expect roughly 1 sale per 30–50 DMs at the start.
@@ -21,7 +23,7 @@
 ## DM scripts (send from YOUR own account)
 
 **First message**
-> Hi [name]! Your [style] work is clean 🔥 Quick question: do you still take bookings only through DMs? I built a booking site for a braider ([demo link]). Clients pick a style, see prices and book, and she gets an email each time. Want me to send a 1-min video of how it works?
+> Hi [name]! Your [work/products] look clean 🔥 Quick question: do you still take orders and bookings only through DMs? I build websites where customers see your prices and order or book online, and you get a dashboard showing your revenue and best sellers. Here's one running a real business: [demo link]. Want a free mock-up with your name and logo?
 
 **If they say yes**
 > Here you go: [video/demo link]. I can set one up with your name, photos and prices in about 5 days. Starter is [price]. Want me to send a quick mock-up with your logo first? No charge.
@@ -35,23 +37,23 @@
 Rules: be polite, never spam the same person more than twice, stop if they say no.
 
 ## LinkedIn post
-> I built a full booking website for a hair business as a student project that turned real 💇🏾‍♀️
+> I built a full sales website for a hair business, and it now runs their bookings and shop every day 💼
 >
 > ✅ Clients book online and pick sizes, lengths and colours
 > ✅ The owner gets an email for every booking
 > ✅ Dashboard with revenue by month, best-selling styles and a CSV export
-> ✅ A shop for oils and hair products, with stock tracking
+> ✅ A shop for products, with stock tracking
 >
 > Stack: HTML/JS, Supabase, Vercel.
 >
-> I'm now setting this up for other salons and braiders. If you or someone you know runs a beauty business that still takes bookings only through DMs, send me a message 👇
+> I now set this up for any small business: salons, barbers, tailors, bakers, caterers, boutiques, photographers. If you or someone you know still takes orders only through DMs, send me a message 👇
 >
-> #webdevelopment #smallbusiness #MIS #supabase #beautybusiness
+> #webdevelopment #smallbusiness #MIS #supabase #entrepreneur
 
 ## Per-client checklist
 1. Get 50% deposit and a signed agreement (below).
 2. Collect: business name, logo, 6–12 photos, Instagram handle, services and prices, policies, currency, owner email.
-3. `python3 sell/new_client.py "Their Name" SHORT their_ig` → creates `clients/<name>/`.
+3. `python3 sell/new_client.py "Their Name" SHORT their_ig --type food` → creates `clients/<name>/`. Pick the type from `--list`. Add `--theme gold` to change colours.
 4. Make a **new Supabase project** for them (never reuse The Hair Gallery's). Run the SQL files from your laptop in the order in `SETUP.md`. Paste their URL and publishable key into `config.js`.
 5. Add their `img/logo.jpg` and photos. Deploy the folder as a new Vercel project. Connect their domain if they bought one.
 6. Make their owner account, show them the dashboard, take the other 50%.
@@ -60,7 +62,7 @@ Rules: be polite, never spam the same person more than twice, stop if they say n
 ## Simple agreement (copy into a doc, both sign)
 > **Website agreement**
 > Between [Your name] ("Developer") and [Client business] ("Client"). Date: ____
-> 1. Developer builds a booking website with the Client's name, photos and prices within [7] days of receiving all content.
+> 1. Developer builds a website with the Client's name, photos and prices within [7] days of receiving all content.
 > 2. Price: [amount]. 50% before work starts, 50% when the site is live. Monthly support: [amount], paid by the [5th] of each month. Either side can stop the monthly support with 30 days' notice.
 > 3. Client owns their content and their customer data. Developer keeps the right to reuse the website code for other clients.
 > 4. Client is responsible for their own prices, policies and following local data and consumer laws.
@@ -71,7 +73,7 @@ Rules: be polite, never spam the same person more than twice, stop if they say n
 > **INVOICE #[001]**  Date: ____
 > From: [Your name], [email/phone]
 > To: [Client business]
-> Booking website setup (Starter/Pro): [amount]
+> Website setup (Starter/Pro): [amount]
 > Deposit received: [amount]
 > **Balance due: [amount]** by [date]
 > Pay to: [bank name, account name, account number]

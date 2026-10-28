@@ -1,0 +1,58 @@
+{
+  "types": {
+    "hair": {
+      "about": "Braiders, hair salons (keeps the original Hair Gallery wording, size/length and colour studio)",
+      "wording": false, "hair_extras": true, "booking": true, "theme": "purple"
+    },
+    "beauty": {
+      "about": "Nails, lashes, makeup, spa",
+      "tagline": "Nails, lashes &amp; makeup done right. Look good, feel good ✨",
+      "book_btn": "Book your glow", "item": "service", "items": "services",
+      "shop_sub": "Beauty products and kits", "emoji": "✨",
+      "hair_extras": false, "booking": true, "theme": "rose"
+    },
+    "barber": {
+      "about": "Barbers, grooming",
+      "tagline": "Fresh cuts, clean fades and beard care 💈",
+      "book_btn": "Book a cut", "item": "cut", "items": "cuts",
+      "shop_sub": "Grooming products", "emoji": "💈",
+      "hair_extras": false, "booking": true, "theme": "black"
+    },
+    "fashion": {
+      "about": "Tailors, fashion designers, boutiques with fittings",
+      "tagline": "Custom outfits and ready-to-wear pieces, made to fit you 🧵",
+      "book_btn": "Book a fitting", "item": "design", "items": "designs",
+      "shop_sub": "Ready-to-wear and accessories", "emoji": "🧵",
+      "hair_extras": false, "booking": true, "theme": "gold"
+    },
+    "services": {
+      "about": "Photography, cleaning, tutoring, repairs, events, any bookable service",
+      "tagline": "Reliable services, booked in a minute ✅",
+      "book_btn": "Book a service", "item": "service", "items": "services",
+      "shop_sub": "Products and packages", "emoji": "✅",
+      "hair_extras": false, "booking": true, "theme": "blue"
+    },
+    "food": {
+      "about": "Bakers, caterers, small chops, food vendors (goods only, no bookings)",
+      "tagline": "Fresh food, cakes and small chops for every occasion 🍰",
+      "book_btn": "Order now", "item": "dish", "items": "dishes",
+      "shop_sub": "Our menu", "emoji": "🍰",
+      "hair_extras": false, "booking": false, "theme": "green"
+    },
+    "store": {
+      "about": "Any goods seller: clothes, perfume, gadgets, skincare (goods only, no bookings)",
+      "tagline": "Quality products at fair prices 🛍️",
+      "book_btn": "Shop now", "item": "product", "items": "products",
+      "shop_sub": "Our products", "emoji": "🛍️",
+      "hair_extras": false, "booking": false, "theme": "blue"
+    }
+  },
+  "themes": {
+    "purple": {"light": "--bg:#f8f4ff;--card:#fff;--tx:#2b1b40;--pri:#b79df0;--acc:#7c4dcc;--mut:#6f5d8a", "dark": "--bg:#140d22;--card:#21163a;--tx:#f2ebff;--pri:#9b7be0;--acc:#c4adff;--mut:#b9a8d8"},
+    "rose":   {"light": "--bg:#fff5f8;--card:#fff;--tx:#3a1324;--pri:#f0a3c0;--acc:#b02a62;--mut:#86566a", "dark": "--bg:#1e0b14;--card:#2e1220;--tx:#ffeaf2;--pri:#d0507f;--acc:#ff9cc2;--mut:#cfa3b5"},
+    "black":  {"light": "--bg:#f5f5f5;--card:#fff;--tx:#111111;--pri:#bdbdbd;--acc:#1a1a1a;--mut:#666666", "dark": "--bg:#0d0d0d;--card:#1a1a1a;--tx:#f2f2f2;--pri:#555555;--acc:#e0e0e0;--mut:#aaaaaa"},
+    "gold":   {"light": "--bg:#fffaf0;--card:#fff;--tx:#2e2310;--pri:#e3c27a;--acc:#8a5a0e;--mut:#7a6648", "dark": "--bg:#17120a;--card:#241c10;--tx:#fbf3e3;--pri:#c99a3f;--acc:#f0c86e;--mut:#c2ae8a"},
+    "green":  {"light": "--bg:#f3faf5;--card:#fff;--tx:#14301f;--pri:#8fd1a8;--acc:#1f7a47;--mut:#55705f", "dark": "--bg:#0c1a12;--card:#13271b;--tx:#e6f5ec;--pri:#3f9e68;--acc:#7fdca5;--mut:#9cbfa9"},
+    "blue":   {"light": "--bg:#f3f7ff;--card:#fff;--tx:#14213d;--pri:#9db8f0;--acc:#2f5fd0;--mut:#5a6a8a", "dark": "--bg:#0b1222;--card:#141f38;--tx:#e8efff;--pri:#4a74d8;--acc:#9fbaff;--mut:#a3b2d0"}
+  }
+}

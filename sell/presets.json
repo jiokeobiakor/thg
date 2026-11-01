@@ -1,7 +1,7 @@
 {
   "types": {
     "hair": {
-      "about": "Braiders, hair salons (keeps the original Hair Gallery wording, size/length and colour studio)",
+      "about": "Braiders, hair salons (keeps the original Hair Gallery wording, size, length and colour pickers)",
       "wording": false, "hair_extras": true, "booking": true, "theme": "purple"
     },
     "beauty": {

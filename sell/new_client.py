@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PRESETS = json.loads((Path(__file__).parent / "presets.json").read_text(encoding="utf-8"))
 FILES = ["index.html", "login.html", "reset.html", "admin.html", "privacy.html",
          "styles.css", "app.js", "admin.js", "login.js", "reset.js", "ui.js",
-         "studio.js", "manifest.json", "vercel.json", "_headers"]
+         "manifest.json", "vercel.json", "_headers"]
 
 
 def wording(p):
@@ -45,12 +45,8 @@ def wording(p):
 
 
 def no_hair_extras():
-    """Hide size/length pickers and the hair colour studio."""
-    return [
-        ("index.html", '<div class="bar2"><label>Size', '<div class="bar2" hidden><label>Size'),
-        ("index.html", '<div class="studio" id="studio">', '<div class="studio" id="studio" hidden>'),
-        ("index.html", '<script src="studio.js"></script>', ""),
-    ]
+    """Hide the hair size, length and colour pickers."""
+    return [("index.html", '<div class="bar2"><label>Size', '<div class="bar2" hidden><label>Size')]
 
 
 def goods_only(p):

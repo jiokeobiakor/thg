@@ -5,7 +5,7 @@ Do the parts in order. Each part says what to check before moving on.
 ## What this bundle adds
 - Mobile-first redesign: menu button, 2 photos per row on phones, 48px tap targets, no sideways scrolling, installable like an app.
 - Services, Price List and Policies sections (editable by the owner in the dashboard), policy tick-box when booking, size and length choices.
-- Colour studio: tap real hair-colour swatches, see a live braid preview (solid, mixed or ombre).
+- Colour choice when booking: Black, Coloured or Mixed.
 - Wording: prices shown are the real prices; Instagram DM is for enquiries and is the only contact route.
 - Dashboard: tabs, price pop-up when she taps Done, permanent Register with search, filters and CSV export, revenue by month, trending styles, best sellers.
 - Shop for oils and other goods, with order requests, stock and a "record a sale" form.
@@ -16,13 +16,13 @@ Do the parts in order. Each part says what to check before moving on.
 Replace or add these files. Do NOT touch `config.js` (it holds your real Supabase keys) or your existing `img/` photos.
 
 Website files (these get pushed to GitHub):
-`index.html login.html reset.html admin.html privacy.html styles.css app.js admin.js login.js reset.js ui.js studio.js manifest.json vercel.json _headers .gitignore`
+`index.html login.html reset.html admin.html privacy.html styles.css app.js admin.js login.js reset.js ui.js manifest.json vercel.json _headers .gitignore`
 and in `img/`: `icon-192.png icon-512.png`
 
 Keep on your laptop only (never push; `.gitignore` already blocks them):
 `shop-and-analytics.sql content-and-policies.sql notifications.sql security-test.html`
 
-Check: the folder has `studio.js`, `ui.js` and `manifest.json` next to `index.html`.
+Check: the folder has `ui.js` and `manifest.json` next to `index.html`.
 
 ## Part 2: Database (Supabase, SQL Editor, run each file once, in this order)
 Already done earlier: schema, migration-accounts, security-hardening 1, 2, 3, remove-whatsapp.
@@ -63,7 +63,7 @@ Log in at /login.html. Then:
 
 ## Part 6: Test everything (10 minutes)
 1. Phone: menu opens, gallery shows 2 per row, nothing slides sideways.
-2. Make a client account, pick colours in the Colour studio, book. Check "My bookings".
+2. Make a client account, pick a colour (Black, Coloured or Mixed), book. Check "My bookings".
 3. Owner phone: email arrives, Appointments tab shows the booking with colours in the notes.
 4. Tap Done, enter the agreed price. Open Register: the record and price appear. Dashboard: revenue updates.
 5. Order a product as a client, then in Shop tap Sold and enter the price.

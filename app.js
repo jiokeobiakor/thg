@@ -66,12 +66,12 @@ $("form").onsubmit = async e => {
   e.preventDefault();
   if (!me) return (location.href = "login.html");
   if (!pick) return say("Pick a time first 💜");
-  const s = slots.find(x => x.id === pick), style = $("style").value, name = who().name, pre = [$("bsize").value, $("blen").value].filter(Boolean).join(" / "), col = window.Studio ? Studio.text() : "";
+  const s = slots.find(x => x.id === pick), style = $("style").value, name = who().name, pre = [$("bsize").value, $("blen").value].filter(Boolean).join(" / "), col = $("hcol").value ? "Colour: " + $("hcol").value : "";
   const { data, error } = await db.rpc("book_slot", { p_slot: pick, p_name: name, p_phone: who().phone, p_style: style, p_notes: (pre ? `[${pre}] ` : "") + (col ? col + ". " : "") + $("notes").value });
   if (error) return say(esc(error.message || "Something went wrong, try again."));
   if (!data) { say("Sorry, that slot was just taken. Pick another."); return load(); }
   const t = `Hi! I'm ${name}. I just booked ${style}${pre ? " (" + pre + ")" : ""}${col ? ", " + col : ""} on ${s.slot_date} at ${s.slot_time}. Can we confirm the price?`;
-  e.target.reset(); if (window.Studio) Studio.reset();
+  e.target.reset();
   const { data: pay } = await db.rpc("get_pay_info");
   say(`Booked! ✅ Last step: message us on Instagram to confirm your price.<br>${pay ? `<br><b>Payment details:</b><br>${esc(pay).replace(/\n/g, "<br>")}<br><br>` : ""}<button class="btn" id="cp" type="button">Copy booking details</button> <a class="btn" target="_blank" rel="noopener noreferrer" href="https://ig.me/m/${esc(igUser())}">Open Instagram DM 📸</a>`);
   $("cp").onclick = async () => { try { await navigator.clipboard.writeText(t); $("cp").textContent = "Copied ✅ Paste it in the DM"; } catch { $("cp").textContent = "Copy failed. Type your details in the DM."; } };

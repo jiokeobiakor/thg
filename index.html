@@ -13,7 +13,7 @@
 <section id="book"><h2 class="reveal">Book an Appointment</h2>
 <form id="form" class="card reveal"><p id="as" class="sub" style="margin:0"></p>
 <label>Hairstyle<select id="style" required></select></label>
-<div class="bar2"><label>Size<select id="bsize"><option value="">Not sure</option><option>Large</option><option>Medium</option><option>Small</option></select></label><label>Length<select id="blen"><option value="">Not sure</option><option>Short</option><option>Medium</option><option>Long (waist)</option></select></label><label>Colour<select id="hcol"><option value="">Not sure</option><option>Black</option><option>Coloured</option><option>Mixed</option></select></label></div>
+<div class="bar2"><label>Size<select id="bsize" required><option value="" disabled selected hidden>Choose</option><option>Large</option><option>Medium</option><option>Small</option></select></label><label>Length<select id="blen" required><option value="" disabled selected hidden>Choose</option><option>Short</option><option>Medium</option><option>Long (waist)</option></select></label><label>Colour<select id="hcol" required><option value="" disabled selected hidden>Choose</option><option>Black</option><option>Coloured</option><option>Mixed</option></select></label></div>
 <label>Date<select id="date" required></select></label>
 <div id="times" class="times"></div>
 <label>Notes (optional)<textarea id="notes" maxlength="260"></textarea></label>

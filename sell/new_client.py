@@ -46,7 +46,8 @@ def wording(p):
 
 def no_hair_extras():
     """Hide the hair size, length and colour pickers."""
-    return [("index.html", '<div class="bar2"><label>Size', '<div class="bar2" hidden><label>Size')]
+    return [("index.html", '<div class="bar2"><label>Size', '<div class="bar2" hidden><label>Size')] + [
+        ("index.html", f'<select id="{i}" required>', f'<select id="{i}">') for i in ("bsize", "blen", "hcol")]
 
 
 def goods_only(p):
